@@ -6,6 +6,7 @@ import (
 	"finance/internal/common/errors"
 	"finance/internal/domain/user/entity"
 	"finance/internal/domain/user/repository"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // UserService handles user business logic
@@ -63,4 +64,18 @@ func (s *UserService) RechargeUser(ctx context.Context, userID int64, amount flo
 // ListUsers lists users with pagination
 func (s *UserService) ListUsers(ctx context.Context, limit, offset int) ([]*entity.User, error) {
 	return s.userRepo.List(ctx, limit, offset)
+}
+
+// HashPassword hashes a plain text password using bcrypt
+func HashPassword(password string) (string, error) {
+	hashedBytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hashedBytes), nil
+}
+
+// CheckPasswordHash compares a plain text password with a hashed password
+func CheckPasswordHash(hashedPassword, password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 }

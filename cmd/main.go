@@ -1,29 +1,30 @@
 package main
 
 import (
-"database/sql"
-"fmt"
-"log"
-"net/http"
+	"database/sql"
+	"fmt"
+	"log"
+	"net/http"
 
-"finance/internal/config"
-"finance/internal/handler"
-userRepo "finance/internal/domain/user/repository"
-productRepo "finance/internal/domain/product/repository"
-orderRepo "finance/internal/domain/order/repository"
-invoiceRepo "finance/internal/domain/invoice/repository"
-rechargeRepo "finance/internal/domain/recharge/repository"
-supplierRepo "finance/internal/domain/supplier/repository"
-projectRepo "finance/internal/domain/project/repository"
-userService "finance/internal/domain/user/service"
-productService "finance/internal/domain/product/service"
-orderService "finance/internal/domain/order/service"
-invoiceService "finance/internal/domain/invoice/service"
-rechargeService "finance/internal/domain/recharge/service"
-projectService "finance/internal/domain/project/service"
-supplierService "finance/internal/domain/supplier/service"
+	"finance/internal/config"
+	"finance/internal/handler"
+	"finance/internal/middleware"
+	userRepo "finance/internal/domain/user/repository"
+	productRepo "finance/internal/domain/product/repository"
+	orderRepo "finance/internal/domain/order/repository"
+	invoiceRepo "finance/internal/domain/invoice/repository"
+	rechargeRepo "finance/internal/domain/recharge/repository"
+	supplierRepo "finance/internal/domain/supplier/repository"
+	projectRepo "finance/internal/domain/project/repository"
+	userService "finance/internal/domain/user/service"
+	productService "finance/internal/domain/product/service"
+	orderService "finance/internal/domain/order/service"
+	invoiceService "finance/internal/domain/invoice/service"
+	rechargeService "finance/internal/domain/recharge/service"
+	projectService "finance/internal/domain/project/service"
+	supplierService "finance/internal/domain/supplier/service"
 
-_ "github.com/lib/pq"
+	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -61,7 +62,10 @@ rechargeSvc := rechargeService.NewRechargeService(rRepo, uRepo, sRepo)
 projSvc := projectService.NewProjectService(projRepo)
 supplierSvc := supplierService.NewSupplierService(sRepo)
 
-userHandler := handler.NewUserHandler(userSvc)
+// Initialize auth middleware
+authMiddleware := middleware.NewAuthMiddleware("erp_system_secret_key_2024_change_in_production")
+
+userHandler := handler.NewUserHandler(userSvc, authMiddleware, db)
 productHandler := handler.NewProductHandler(productSvc)
 orderHandler := handler.NewOrderHandler(orderSvc)
 invoiceHandler := handler.NewInvoiceHandler(invoiceSvc, orderSvc)

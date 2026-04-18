@@ -1,1 +1,42 @@
-Nothing should be ignored based on the provided file changes, as they only include source code files (.go files) without any build artifacts, dependencies, or temporary files.
+```
+# Go binaries
+*.exe
+*.dll
+*.so
+*.a
+*.obj
+*.out
+
+# Go build artifacts
+build/
+dist/
+*.test
+*.prof
+
+# Dependencies
+vendor/
+
+# Environment
+.env
+.env.local
+.env.*
+
+# Logs
+*.log
+
+# Coverage
+.coverage
+coverage/
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# System
+.DS_Store
+Thumbs.db
+```
