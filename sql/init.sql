@@ -6,7 +6,11 @@ CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(100) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(50),
-    balance DECIMAL(15, 2) DEFAULT 0.00,
+    balance_amount DECIMAL(15, 2) DEFAULT 0.00,
+    balance_currency VARCHAR(10) DEFAULT 'CNY',
+    status_code VARCHAR(50) DEFAULT 'active',
+    status_description VARCHAR(255) DEFAULT 'Active',
+    status_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

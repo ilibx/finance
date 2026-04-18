@@ -1,77 +1,47 @@
 ```
-# Go build artifacts
+# Dependencies
+vendor/
+
+# Build artifacts
 *.o
+*.obj
 *.a
 *.so
-*.exe
-*.dll
 *.dylib
+*.dll
+*.exe
+
+# Go specific
 *.test
 *.prof
-
-# Go cache and build directories
-vendor/
-bin/
-obj/
-
-# Dependencies
-go/pkg/mod/
+go.mod.lock
+go.sum
 
 # Logs
 *.log
 
-# Environment variables
+# Environment
 .env
 .env.local
-*.env.*
+.env.*
 
-# IDE and editor files
+# Editor/IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+
+# OS
 .DS_Store
 Thumbs.db
 
-# Coverage reports
+# Coverage
 coverage/
 htmlcov/
-*.coverprofile
 .coverage
 
-# Build and distribution
-dist/
-build/
-target/
-
-# Temporary files
+# Temp files
 *.tmp
 *.temp
-*.bak
-*.backup
-
-# Compression archives
-*.zip
-*.gz
-*.tar
-*.tgz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.zst
-*.lz4
-*.lzh
-*.cab
-*.arj
-*.rpm
-*.deb
-*.Z
-*.lz
-*.lzo
-*.tar.gz
-*.tar.bz2
-*.tar.xz
-*.tar.zst
 ```
