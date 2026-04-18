@@ -2,9 +2,12 @@ package main
 
 import (
 	"database/sql"
+	"embed"
 	"fmt"
+	"io/fs"
 	"log"
 	"net/http"
+	"strings"
 
 	"finance/internal/config"
 	"finance/internal/handler"
@@ -30,6 +33,9 @@ import (
 
 	_ "github.com/lib/pq"
 )
+
+//go:embed web/dist/*
+var frontendFS embed.FS
 
 func main() {
 cfg := config.Load()
@@ -132,6 +138,39 @@ http.HandleFunc("/api/financial/trend", financialHandler.GetProfitTrend)
 http.HandleFunc("/api/financial/category", financialHandler.GetCategoryStatistics)
 http.HandleFunc("/api/financial/dashboard", financialHandler.GetDashboardSummary)
 
+// 创建前端静态文件服务器
+frontendFS, err := fs.Sub(frontendFS, "web/dist")
+if err != nil {
+	log.Fatalf("无法加载前端文件：%v", err)
+}
+
+// 处理前端路由，支持 SPA 的 history 模式
+http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	// API 路由不处理
+	if strings.HasPrefix(r.URL.Path, "/api/") {
+		return
+	}
+	
+	// 尝试访问静态文件
+	path := r.URL.Path
+	if path == "/" {
+		path = "/index.html"
+	}
+	
+	// 检查文件是否存在
+	filePath := strings.TrimPrefix(path, "/")
+	f, err := frontendFS.Open(filePath)
+	if err != nil {
+		// 文件不存在，返回 index.html（支持 SPA 路由）
+		path = "/index.html"
+		filePath = "index.html"
+	} else {
+		f.Close()
+	}
+	
+	http.ServeFileFS(w, r, frontendFS, filePath)
+})
+
 addr := ":" + cfg.Server.Port
 log.Printf("ERP 系统启动在 %s", addr)
 log.Println("API 端点:")
@@ -172,6 +211,8 @@ log.Println("  - GET  /api/financial/items - 获取收支明细")
 log.Println("  - GET  /api/financial/trend - 获取利润趋势")
 log.Println("  - GET  /api/financial/category - 获取类别统计")
 log.Println("  - GET  /api/financial/dashboard - 获取仪表盘汇总")
+log.Println("")
+log.Println("前端页面：http://localhost" + addr)
 
 if err := http.ListenAndServe(addr, nil); err != nil {
 log.Fatal(err)
