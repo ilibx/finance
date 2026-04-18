@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"erp-system/internal/common/errors"
-	"erp-system/internal/domain/order/entity"
-	"erp-system/internal/domain/order/repository"
-	productRepo "erp-system/internal/domain/product/repository"
+	"finance/internal/common/errors"
+	"finance/internal/domain/order/entity"
+	"finance/internal/domain/order/repository"
+	productRepo "finance/internal/domain/product/repository"
 )
 
 // OrderService handles order business logic

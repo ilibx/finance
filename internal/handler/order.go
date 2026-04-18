@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"erp-system/internal/common/valueobject"
-	"erp-system/internal/domain/order/entity"
-	orderService "erp-system/internal/domain/order/service"
+	"finance/internal/common/valueobject"
+	"finance/internal/domain/order/entity"
+	orderService "finance/internal/domain/order/service"
 )
 
 // OrderHandler handles order-related HTTP requests

@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"time"
 
-	"erp-system/internal/domain/product/entity"
+	"finance/internal/domain/product/entity"
 )
 
 // ProductRepository defines the interface for product data access

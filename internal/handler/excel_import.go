@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"erp-system/infrastructure/excel"
+	"finance/infrastructure/excel"
 )
 
 // ExcelImportHandler handles Excel import/export requests

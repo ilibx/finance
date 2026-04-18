@@ -2,7 +2,7 @@ package repository
 
 import (
 	"database/sql"
-	"erp-system/internal/domain/project/entity"
+	"finance/internal/domain/project/entity"
 	"fmt"
 )
 

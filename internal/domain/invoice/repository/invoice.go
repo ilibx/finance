@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"time"
 
-	"erp-system/internal/domain/invoice/entity"
+	"finance/internal/domain/invoice/entity"
 )
 
 // InvoiceRepository defines the interface for invoice data access

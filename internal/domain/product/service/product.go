@@ -3,9 +3,9 @@ package service
 import (
 "context"
 
-"erp-system/internal/common/errors"
-"erp-system/internal/domain/product/entity"
-"erp-system/internal/domain/product/repository"
+"finance/internal/common/errors"
+"finance/internal/domain/product/entity"
+"finance/internal/domain/product/repository"
 )
 
 // ProductService handles product business logic

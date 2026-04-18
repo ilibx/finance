@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"time"
 
-	"erp-system/internal/domain/order/entity"
+	"finance/internal/domain/order/entity"
 )
 
 // OrderRepository defines the interface for order data access

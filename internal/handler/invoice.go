@@ -4,8 +4,8 @@ import (
 "encoding/json"
 "net/http"
 
-invoiceService "erp-system/internal/domain/invoice/service"
-orderService "erp-system/internal/domain/order/service"
+invoiceService "finance/internal/domain/invoice/service"
+orderService "finance/internal/domain/order/service"
 )
 
 // InvoiceHandler handles invoice-related HTTP requests

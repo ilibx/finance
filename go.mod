@@ -1,4 +1,4 @@
-module erp-system
+module finance
 
 go 1.19
 

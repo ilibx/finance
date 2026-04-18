@@ -4,7 +4,7 @@ import (
 "encoding/json"
 "net/http"
 
-productService "erp-system/internal/domain/product/service"
+productService "finance/internal/domain/product/service"
 )
 
 // ProductHandler handles product-related HTTP requests

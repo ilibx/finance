@@ -3,10 +3,10 @@ package service
 import (
 "context"
 
-"erp-system/internal/common/errors"
-"erp-system/internal/common/valueobject"
-"erp-system/internal/domain/supplier/entity"
-"erp-system/internal/domain/supplier/repository"
+"finance/internal/common/errors"
+"finance/internal/common/valueobject"
+"finance/internal/domain/supplier/entity"
+"finance/internal/domain/supplier/repository"
 )
 
 // SupplierService handles supplier business logic

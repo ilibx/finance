@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"time"
 
-	"erp-system/internal/domain/user/entity"
+	"finance/internal/domain/user/entity"
 )
 
 // UserRepository defines the interface for user data access

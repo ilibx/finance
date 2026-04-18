@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
-	"erp-system/internal/common/errors"
-	"erp-system/internal/domain/user/entity"
-	"erp-system/internal/domain/user/repository"
+	"finance/internal/common/errors"
+	"finance/internal/domain/user/entity"
+	"finance/internal/domain/user/repository"
 )
 
 // UserService handles user business logic

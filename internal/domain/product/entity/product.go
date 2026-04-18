@@ -3,8 +3,8 @@ package entity
 import (
 	"time"
 
-	"erp-system/internal/common/errors"
-	"erp-system/internal/common/valueobject"
+	"finance/internal/common/errors"
+	"finance/internal/common/valueobject"
 )
 
 // Product represents a product aggregate root
