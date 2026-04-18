@@ -14,6 +14,7 @@ type SupplierRepository interface {
 	GetByID(ctx context.Context, id int64) (*entity.Supplier, error)
 	Update(ctx context.Context, supplier *entity.Supplier) error
 	List(ctx context.Context, limit, offset int) ([]*entity.Supplier, error)
+	Delete(ctx context.Context, id int64) error
 }
 
 // postgresSupplierRepository implements SupplierRepository
@@ -132,4 +133,10 @@ func (r *postgresSupplierRepository) List(ctx context.Context, limit, offset int
 		suppliers = append(suppliers, supplier)
 	}
 	return suppliers, rows.Err()
+}
+
+func (r *postgresSupplierRepository) Delete(ctx context.Context, id int64) error {
+	query := `DELETE FROM suppliers WHERE id = $1`
+	_, err := r.db.ExecContext(ctx, query, id)
+	return err
 }

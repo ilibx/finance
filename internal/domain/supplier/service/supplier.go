@@ -67,5 +67,52 @@ return s.supplierRepo.Update(ctx, supplier)
 
 // ListSuppliers lists suppliers with pagination
 func (s *SupplierService) ListSuppliers(ctx context.Context, limit, offset int) ([]*entity.Supplier, error) {
-return s.supplierRepo.List(ctx, limit, offset)
+	return s.supplierRepo.List(ctx, limit, offset)
+}
+
+// GetAllSuppliers gets all suppliers
+func (s *SupplierService) GetAllSuppliers(ctx context.Context) ([]*entity.Supplier, error) {
+	return s.supplierRepo.List(ctx, 1000, 0)
+}
+
+// UpdateSupplier updates a supplier's information
+func (s *SupplierService) UpdateSupplier(ctx context.Context, id int64, name, phone, email, address, status string) error {
+	supplier, err := s.supplierRepo.GetByID(ctx, id)
+	if err != nil {
+		return errors.ErrSupplierNotFound
+	}
+
+	if name != "" {
+		supplier.UpdateName(name)
+	}
+	if phone != "" || email != "" {
+		contact := valueobject.ContactInfo{
+			Name:  supplier.Contact.Name,
+			Phone: phone,
+			Email: email,
+		}
+		supplier.UpdateContact(contact)
+	}
+	if address != "" {
+		addr := valueobject.Address{
+			Street:  address,
+			Country: "China",
+		}
+		supplier.UpdateAddress(addr)
+	}
+	if status != "" {
+		supplier.UpdateStatus(status)
+	}
+
+	return s.supplierRepo.Update(ctx, supplier)
+}
+
+// DeleteSupplier deletes a supplier by ID
+func (s *SupplierService) DeleteSupplier(ctx context.Context, id int64) error {
+	_, err := s.supplierRepo.GetByID(ctx, id)
+	if err != nil {
+		return errors.ErrSupplierNotFound
+	}
+
+	return s.supplierRepo.Delete(ctx, id)
 }

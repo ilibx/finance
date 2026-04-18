@@ -21,6 +21,7 @@ orderService "finance/internal/domain/order/service"
 invoiceService "finance/internal/domain/invoice/service"
 rechargeService "finance/internal/domain/recharge/service"
 projectService "finance/internal/domain/project/service"
+supplierService "finance/internal/domain/supplier/service"
 
 _ "github.com/lib/pq"
 )
@@ -58,6 +59,7 @@ orderSvc := orderService.NewOrderService(oRepo, pRepo)
 invoiceSvc := invoiceService.NewInvoiceService(iRepo)
 rechargeSvc := rechargeService.NewRechargeService(rRepo, uRepo, sRepo)
 projSvc := projectService.NewProjectService(projRepo)
+supplierSvc := supplierService.NewSupplierService(sRepo)
 
 userHandler := handler.NewUserHandler(userSvc)
 productHandler := handler.NewProductHandler(productSvc)
@@ -65,6 +67,7 @@ orderHandler := handler.NewOrderHandler(orderSvc)
 invoiceHandler := handler.NewInvoiceHandler(invoiceSvc, orderSvc)
 rechargeHandler := handler.NewRechargeHandler(rechargeSvc)
 projectHandler := handler.NewProjectHandler(projSvc)
+supplierHandler := handler.NewSupplierHandler(supplierSvc)
 excelImportHandler := handler.NewExcelImportHandler()
 
 http.HandleFunc("/api/users/create", userHandler.CreateUser)
@@ -82,6 +85,13 @@ http.HandleFunc("/api/projects/delete", projectHandler.DeleteProject)
 http.HandleFunc("/api/projects/list", projectHandler.ListProjects)
 http.HandleFunc("/api/projects/status", projectHandler.UpdateProjectStatus)
 http.HandleFunc("/api/projects/track-progress", projectHandler.TrackProjectProgress)
+
+// Supplier management endpoints
+http.HandleFunc("/api/suppliers/create", supplierHandler.CreateSupplier)
+http.HandleFunc("/api/suppliers/get", supplierHandler.GetSupplier)
+http.HandleFunc("/api/suppliers/list", supplierHandler.ListSuppliers)
+http.HandleFunc("/api/suppliers/update", supplierHandler.UpdateSupplier)
+http.HandleFunc("/api/suppliers/delete", supplierHandler.DeleteSupplier)
 
 http.HandleFunc("/api/excel/import/consumption-bills", excelImportHandler.ImportConsumptionBills)
 http.HandleFunc("/api/excel/import/recharge-records", excelImportHandler.ImportRechargeRecords)
@@ -106,6 +116,12 @@ log.Println("  - DELETE /api/projects/delete?id=1 - 删除项目")
 log.Println("  - GET  /api/projects/list - 项目列表")
 log.Println("  - PATCH /api/projects/status?id=1 - 更新项目状态")
 log.Println("  - POST /api/projects/track-progress?id=1 - 跟踪项目进度")
+log.Println("供应商管理:")
+log.Println("  - POST /api/suppliers/create - 创建供应商")
+log.Println("  - GET  /api/suppliers/get?id=1 - 获取供应商")
+log.Println("  - GET  /api/suppliers/list - 供应商列表")
+log.Println("  - PUT  /api/suppliers/update - 更新供应商")
+log.Println("  - DELETE /api/suppliers/delete?id=1 - 删除供应商")
 log.Println("Excel 导入导出:")
 log.Println("  - POST /api/excel/import/* - 导入 Excel")
 log.Println("  - GET  /api/excel/export/* - 导出 Excel")
