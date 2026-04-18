@@ -4,7 +4,7 @@ import (
 "encoding/json"
 "net/http"
 
-rechargeService "erp-system/internal/domain/recharge/service"
+rechargeService "finance/internal/domain/recharge/service"
 )
 
 // RechargeHandler handles recharge-related HTTP requests

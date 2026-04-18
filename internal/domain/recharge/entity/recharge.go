@@ -3,7 +3,7 @@ package entity
 import (
 "time"
 
-"erp-system/internal/common/valueobject"
+"finance/internal/common/valueobject"
 )
 
 // RechargeType represents recharge type

@@ -3,7 +3,7 @@ package entity
 import (
 	"time"
 
-	"erp-system/internal/common/valueobject"
+	"finance/internal/common/valueobject"
 )
 
 // User represents a user aggregate root

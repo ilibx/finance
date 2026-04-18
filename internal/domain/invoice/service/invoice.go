@@ -5,9 +5,9 @@ import (
 "fmt"
 "time"
 
-"erp-system/internal/common/errors"
-"erp-system/internal/domain/invoice/entity"
-"erp-system/internal/domain/invoice/repository"
+"finance/internal/common/errors"
+"finance/internal/domain/invoice/entity"
+"finance/internal/domain/invoice/repository"
 )
 
 // InvoiceService handles invoice business logic

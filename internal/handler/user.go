@@ -5,7 +5,7 @@ import (
 "fmt"
 "net/http"
 
-userService "erp-system/internal/domain/user/service"
+userService "finance/internal/domain/user/service"
 )
 
 // UserHandler handles user-related HTTP requests

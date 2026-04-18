@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"erp-system/internal/domain/project/service"
+	"finance/internal/domain/project/service"
 )
 
 // ProjectHandler handles project-related HTTP requests

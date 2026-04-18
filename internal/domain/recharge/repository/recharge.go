@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"time"
 
-	"erp-system/internal/domain/recharge/entity"
+	"finance/internal/domain/recharge/entity"
 )
 
 // RechargeRepository defines the interface for recharge data access

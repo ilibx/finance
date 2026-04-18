@@ -5,8 +5,8 @@ import (
 	"database/sql"
 	"time"
 
-	"erp-system/internal/domain/user/entity"
-	"erp-system/internal/domain/user/repository"
+	"finance/internal/domain/user/entity"
+	"finance/internal/domain/user/repository"
 )
 
 // postgresUserRepository implements repository.UserRepository

@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"time"
 
-	"erp-system/internal/domain/supplier/entity"
+	"finance/internal/domain/supplier/entity"
 )
 
 // SupplierRepository defines the interface for supplier data access

@@ -3,7 +3,7 @@ package entity
 import (
 "time"
 
-"erp-system/internal/common/valueobject"
+"finance/internal/common/valueobject"
 )
 
 // Supplier represents a supplier aggregate root

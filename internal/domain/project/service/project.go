@@ -1,8 +1,8 @@
 package service
 
 import (
-	"erp-system/internal/domain/project/entity"
-	"erp-system/internal/domain/project/repository"
+	"finance/internal/domain/project/entity"
+	"finance/internal/domain/project/repository"
 	"fmt"
 	"time"
 )

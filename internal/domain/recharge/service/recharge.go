@@ -3,11 +3,11 @@ package service
 import (
 	"context"
 
-	"erp-system/internal/common/errors"
-	"erp-system/internal/domain/recharge/entity"
-	rechargeRepo "erp-system/internal/domain/recharge/repository"
-	userRepo "erp-system/internal/domain/user/repository"
-	supplierRepo "erp-system/internal/domain/supplier/repository"
+	"finance/internal/common/errors"
+	"finance/internal/domain/recharge/entity"
+	rechargeRepo "finance/internal/domain/recharge/repository"
+	userRepo "finance/internal/domain/user/repository"
+	supplierRepo "finance/internal/domain/supplier/repository"
 )
 
 // RechargeService handles recharge business logic
