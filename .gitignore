@@ -1,42 +1,19 @@
 ```
-# Go binaries
-*.exe
-*.dll
-*.so
-*.a
+# Compiled and build artifacts
+*.o
 *.obj
 *.out
-
-# Go build artifacts
-build/
-dist/
-*.test
-*.prof
-
 # Dependencies
 vendor/
-
+# Logs and temp files
+*.log
+*.tmp
+*.swp
 # Environment
 .env
 .env.local
 .env.*
-
-# Logs
-*.log
-
-# Coverage
-.coverage
-coverage/
-htmlcov/
-
-# IDE
+# Editors
 .vscode/
 .idea/
-*.swp
-*.swo
-*.tmp
-
-# System
-.DS_Store
-Thumbs.db
 ```

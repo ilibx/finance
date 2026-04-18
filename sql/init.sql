@@ -113,12 +113,19 @@ CREATE TABLE IF NOT EXISTS suppliers (
 -- 采购订单表
 CREATE TABLE IF NOT EXISTS purchase_orders (
     id BIGSERIAL PRIMARY KEY,
-    order_no VARCHAR(100) NOT NULL UNIQUE,
+    purchase_no VARCHAR(100) NOT NULL UNIQUE,
     supplier_id BIGINT NOT NULL REFERENCES suppliers(id),
+    supplier_name VARCHAR(255) NOT NULL,
     total_amount DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
-    status VARCHAR(50) NOT NULL DEFAULT 'pending',
-    received_at TIMESTAMP,
-    paid_at TIMESTAMP,
+    status VARCHAR(50) NOT NULL DEFAULT 'draft',
+    created_by BIGINT NOT NULL,
+    approved_by BIGINT,
+    approved_at TIMESTAMP,
+    ordered_at TIMESTAMP,
+    completed_at TIMESTAMP,
+    notes TEXT,
+    delivery_date DATE,
+    received_date TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -126,11 +133,14 @@ CREATE TABLE IF NOT EXISTS purchase_orders (
 -- 采购订单项表
 CREATE TABLE IF NOT EXISTS purchase_order_items (
     id BIGSERIAL PRIMARY KEY,
-    purchase_order_id BIGINT NOT NULL REFERENCES purchase_orders(id) ON DELETE CASCADE,
+    purchase_id BIGINT NOT NULL REFERENCES purchase_orders(id) ON DELETE CASCADE,
     product_id BIGINT NOT NULL REFERENCES products(id),
+    product_name VARCHAR(255) NOT NULL,
     quantity INTEGER NOT NULL DEFAULT 1,
-    unit_cost DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
-    subtotal DECIMAL(15, 2) NOT NULL DEFAULT 0.00
+    received_qty INTEGER NOT NULL DEFAULT 0,
+    unit_price DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+    subtotal DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+    supplier_part_no VARCHAR(100)
 );
 
 -- 消费账单表
@@ -156,6 +166,10 @@ CREATE INDEX idx_orders_status ON orders(status);
 CREATE INDEX idx_invoices_user_id ON invoices(user_id);
 CREATE INDEX idx_recharge_records_user_id ON recharge_records(user_id);
 CREATE INDEX idx_consumption_bills_user_id ON consumption_bills(user_id);
+CREATE INDEX idx_purchase_orders_supplier_id ON purchase_orders(supplier_id);
+CREATE INDEX idx_purchase_orders_status ON purchase_orders(status);
+CREATE INDEX idx_purchase_order_items_purchase_id ON purchase_order_items(purchase_id);
+CREATE INDEX idx_purchase_order_items_product_id ON purchase_order_items(product_id);
 
 -- 插入示例数据
 INSERT INTO users (username, email, phone, balance) VALUES 
