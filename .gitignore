@@ -1,5 +1,5 @@
 ```
-# Compiled and build artifacts
+# Binaries
 *.o
 *.obj
 *.out
@@ -7,9 +7,8 @@
 # Dependencies
 vendor/
 
-# Logs and temp files
+# Logs
 *.log
-*.tmp
 
 # Environment
 .env
@@ -20,11 +19,13 @@ vendor/
 .vscode/
 .idea/
 
-# Coverage
-coverage/
-htmlcov/
-.coverage
+# Build artifacts
+target/
+build/
+dist/
 
-# Original rules preserved
-*.log
+# Go specific
+*.a
+*.so
+*.dylib
 ```

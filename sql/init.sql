@@ -1,5 +1,20 @@
 -- ERP 系统数据库初始化脚本 (PostgreSQL)
 
+-- 项目表 (Project Management)
+CREATE TABLE IF NOT EXISTS projects (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    code VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT,
+    status VARCHAR(50) NOT NULL DEFAULT 'planning',
+    budget DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+    cost DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+    start_date DATE,
+    end_date DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- 用户表
 CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
@@ -132,6 +147,8 @@ CREATE TABLE IF NOT EXISTS consumption_bills (
 );
 
 -- 创建索引
+CREATE INDEX idx_projects_code ON projects(code);
+CREATE INDEX idx_projects_status ON projects(status);
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_products_sku ON products(sku);
 CREATE INDEX idx_orders_user_id ON orders(user_id);
