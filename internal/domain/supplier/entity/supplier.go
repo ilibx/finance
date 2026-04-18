@@ -50,5 +50,33 @@ s.UpdatedAt = time.Now()
 
 // IsActive checks if supplier is active
 func (s *Supplier) IsActive() bool {
-return s.Status.Code == "active"
+	return s.Status.Code == "active"
+}
+
+// UpdateName updates the supplier name
+func (s *Supplier) UpdateName(name string) {
+	s.Name = name
+	s.UpdatedAt = time.Now()
+}
+
+// UpdateContact updates the contact info
+func (s *Supplier) UpdateContact(contact valueobject.ContactInfo) {
+	s.Contact = contact
+	s.UpdatedAt = time.Now()
+}
+
+// UpdateAddress updates the address
+func (s *Supplier) UpdateAddress(address valueobject.Address) {
+	s.Address = address
+	s.UpdatedAt = time.Now()
+}
+
+// UpdateStatus updates the status
+func (s *Supplier) UpdateStatus(status string) {
+	s.Status = valueobject.Status{
+		Code:        status,
+		Description: status,
+		UpdatedAt:   time.Now(),
+	}
+	s.UpdatedAt = time.Now()
 }
