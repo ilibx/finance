@@ -1,0 +1,100 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  animation: float 20s infinite ease-in-out;
+}
+
+.circle-1 {
+  width: 300px;
+  height: 300px;
+  top: -100px;
+  left: -100px;
+  animation-delay: 0s;
+}
+
+.circle-2 {
+  width: 400px;
+  height: 400px;
+  bottom: -150px;
+  right: -150px;
+  animation-delay: 5s;
+}
+
+.circle-3 {
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  right: 10%;
+  animation-delay: 10s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-30px) rotate(180deg);
+  }
+}
+
+.login-card {
+  width: 400px;
+  max-width: 90%;
+  z-index: 1;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+}
+
+.login-card h2 {
+  text-align: center;
+  margin: 0;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 16px;
+  color: #999;
+  font-size: 12px;
+}
+
+.login-footer p {
+  margin: 0;
+}
+
+.ant-form-item {
+  margin-bottom: 20px;
+}
+
+.ant-btn-primary {
+  height: 44px;
+  font-size: 16px;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    width: 100%;
+    margin: 20px;
+  }
+}

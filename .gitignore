@@ -1,40 +1,23 @@
 ```
-# Compiled and build artifacts
-*.o
-*.obj
-*.out
-
 # Dependencies
-vendor/
+node_modules/
 
-# Logs and temp files
-*.log
-*.tmp
+# Build artifacts
+dist/
+build/
+target/
 
 # Environment
 .env
 .env.local
-*.env.*
+.env.*
 
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# IDE
+# Editors
 .vscode/
 .idea/
-*.swp
-*.swo
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Build
-build/
-dist/
-target/
+# Logs
+*.log
 
 # Python
 __pycache__/
@@ -42,35 +25,57 @@ __pycache__/
 *.pyo
 *.pyd
 .Python
-*.so
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git/
+.mypy_cache/
+.pytest_cache/
+.hypothesis/
 
-# Go specific
+# Go
+*.o
+*.a
+*.so
 *.exe
 *.dll
-*.so
 *.dylib
+*.test
+*.prof
+go.mod
+go.sum
 
-# Compressed files
+# Web
+web/dist/
+web/build/
+web/node_modules/
+
+# Temporary files
+*.tmp
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Archives
 *.zip
-*.gz
-*.tar
-*.tgz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.zst
-*.lz4
-*.lzh
-*.cab
-*.arj
-*.rpm
-*.deb
-*.Z
-*.lz
-*.lzo
 *.tar.gz
 *.tar.bz2
 *.tar.xz
-*.tar.zst
+*.7z
+*.rar
+*.gz
+*.bz2
+*.xz
+*.zst
 ```
