@@ -14,11 +14,13 @@ orderRepo "erp-system/internal/domain/order/repository"
 invoiceRepo "erp-system/internal/domain/invoice/repository"
 rechargeRepo "erp-system/internal/domain/recharge/repository"
 supplierRepo "erp-system/internal/domain/supplier/repository"
+projectRepo "erp-system/internal/domain/project/repository"
 userService "erp-system/internal/domain/user/service"
 productService "erp-system/internal/domain/product/service"
 orderService "erp-system/internal/domain/order/service"
 invoiceService "erp-system/internal/domain/invoice/service"
 rechargeService "erp-system/internal/domain/recharge/service"
+projectService "erp-system/internal/domain/project/service"
 
 _ "github.com/lib/pq"
 )
@@ -48,18 +50,21 @@ oRepo := orderRepo.NewOrderRepository(db)
 iRepo := invoiceRepo.NewInvoiceRepository(db)
 rRepo := rechargeRepo.NewRechargeRepository(db)
 sRepo := supplierRepo.NewSupplierRepository(db)
+projRepo := projectRepo.NewProjectRepository(db)
 
 userSvc := userService.NewUserService(uRepo)
 productSvc := productService.NewProductService(pRepo)
 orderSvc := orderService.NewOrderService(oRepo, pRepo)
 invoiceSvc := invoiceService.NewInvoiceService(iRepo)
 rechargeSvc := rechargeService.NewRechargeService(rRepo, uRepo, sRepo)
+projSvc := projectService.NewProjectService(projRepo)
 
 userHandler := handler.NewUserHandler(userSvc)
 productHandler := handler.NewProductHandler(productSvc)
 orderHandler := handler.NewOrderHandler(orderSvc)
 invoiceHandler := handler.NewInvoiceHandler(invoiceSvc, orderSvc)
 rechargeHandler := handler.NewRechargeHandler(rechargeSvc)
+projectHandler := handler.NewProjectHandler(projSvc)
 excelImportHandler := handler.NewExcelImportHandler()
 
 http.HandleFunc("/api/users/create", userHandler.CreateUser)
@@ -68,6 +73,15 @@ http.HandleFunc("/api/products/create", productHandler.CreateProduct)
 http.HandleFunc("/api/orders/create", orderHandler.CreateOrder)
 http.HandleFunc("/api/invoices/generate", invoiceHandler.GenerateInvoice)
 http.HandleFunc("/api/recharge/process", rechargeHandler.ProcessRecharge)
+
+// Project management endpoints
+http.HandleFunc("/api/projects/create", projectHandler.CreateProject)
+http.HandleFunc("/api/projects/get", projectHandler.GetProject)
+http.HandleFunc("/api/projects/update", projectHandler.UpdateProject)
+http.HandleFunc("/api/projects/delete", projectHandler.DeleteProject)
+http.HandleFunc("/api/projects/list", projectHandler.ListProjects)
+http.HandleFunc("/api/projects/status", projectHandler.UpdateProjectStatus)
+http.HandleFunc("/api/projects/track-progress", projectHandler.TrackProjectProgress)
 
 http.HandleFunc("/api/excel/import/consumption-bills", excelImportHandler.ImportConsumptionBills)
 http.HandleFunc("/api/excel/import/recharge-records", excelImportHandler.ImportRechargeRecords)
@@ -84,6 +98,15 @@ log.Println("  - POST /api/products/create - 创建产品")
 log.Println("  - POST /api/orders/create - 创建订单")
 log.Println("  - POST /api/invoices/generate - 生成发票")
 log.Println("  - POST /api/recharge/process - 处理充值")
+log.Println("项目管理:")
+log.Println("  - POST /api/projects/create - 创建项目")
+log.Println("  - GET  /api/projects/get?id=1 - 获取项目")
+log.Println("  - PUT  /api/projects/update - 更新项目")
+log.Println("  - DELETE /api/projects/delete?id=1 - 删除项目")
+log.Println("  - GET  /api/projects/list - 项目列表")
+log.Println("  - PATCH /api/projects/status?id=1 - 更新项目状态")
+log.Println("  - POST /api/projects/track-progress?id=1 - 跟踪项目进度")
+log.Println("Excel 导入导出:")
 log.Println("  - POST /api/excel/import/* - 导入 Excel")
 log.Println("  - GET  /api/excel/export/* - 导出 Excel")
 

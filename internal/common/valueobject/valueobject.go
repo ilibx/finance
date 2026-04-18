@@ -64,6 +64,11 @@ type Address struct {
 	ZipCode string
 }
 
+// String returns the string representation of the address
+func (a Address) String() string {
+	return a.Street + ", " + a.City + ", " + a.State + " " + a.ZipCode + ", " + a.Country
+}
+
 // ContactInfo represents contact information
 type ContactInfo struct {
 	Phone string
