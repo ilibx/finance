@@ -1,0 +1,204 @@
+# User types
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  phone: String
+  balance: Float!
+  status: Status!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+# Product types
+type Product {
+  id: ID!
+  name: String!
+  sku: String!
+  price: Float!
+  cost: Float!
+  stock: Int!
+  description: String
+  status: Status!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+# Order types
+type Order {
+  id: ID!
+  orderNo: String!
+  userId: ID!
+  items: [OrderItem!]!
+  totalAmount: Float!
+  status: OrderStatus!
+  paidAt: Time
+  shippedAt: Time
+  completedAt: Time
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type OrderItem {
+  id: ID!
+  productId: ID!
+  quantity: Int!
+  unitPrice: Float!
+  subtotal: Float!
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  COMPLETED
+  CANCELLED
+}
+
+# Invoice types
+type Invoice {
+  id: ID!
+  invoiceNo: String!
+  orderId: ID!
+  userId: ID!
+  amount: Float!
+  taxAmount: Float!
+  totalAmount: Float!
+  type: InvoiceType!
+  status: InvoiceStatus!
+  issuedAt: Time
+  paidAt: Time
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+enum InvoiceType {
+  SALES
+  PURCHASE
+}
+
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  PAID
+  CANCELLED
+}
+
+# Supplier types
+type Supplier {
+  id: ID!
+  name: String!
+  contact: ContactInfo!
+  address: Address!
+  balance: Float!
+  status: Status!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type ContactInfo {
+  name: String!
+  phone: String!
+  email: String!
+}
+
+type Address {
+  street: String!
+  city: String
+  state: String
+  country: String!
+  zipCode: String
+}
+
+# Recharge types
+type RechargeRecord {
+  id: ID!
+  userId: ID!
+  amount: Float!
+  type: RechargeType!
+  method: RechargeMethod!
+  status: RechargeStatus!
+  remark: String
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+enum RechargeType {
+  USER
+  SUPPLIER
+}
+
+enum RechargeMethod {
+  BANK_TRANSFER
+  ONLINE
+  CASH
+}
+
+enum RechargeStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+# Common types
+type Status {
+  code: String!
+  description: String!
+  updatedAt: Time!
+}
+
+scalar Time
+
+# Query root
+type Query {
+  # User queries
+  user(id: ID!): User
+  users(limit: Int, offset: Int): [User!]!
+  
+  # Product queries
+  product(id: ID!): Product
+  products(limit: Int, offset: Int): [Product!]!
+  
+  # Order queries
+  order(id: ID!): Order
+  orders(limit: Int, offset: Int): [Order!]!
+  
+  # Invoice queries
+  invoice(id: ID!): Invoice
+  invoices(limit: Int, offset: Int): [Invoice!]!
+  
+  # Supplier queries
+  supplier(id: ID!): Supplier
+  suppliers(limit: Int, offset: Int): [Supplier!]!
+  
+  # Recharge queries
+  rechargeRecords(userId: ID!, limit: Int, offset: Int): [RechargeRecord!]!
+}
+
+# Mutation root
+type Mutation {
+  # User mutations
+  createUser(username: String!, email: String!, phone: String): User!
+  rechargeUser(userId: ID!, amount: Float!, method: String!, remark: String): Boolean!
+  
+  # Product mutations
+  createProduct(name: String!, sku: String!, price: Float!, cost: Float!, stock: Int!, description: String): Product!
+  
+  # Order mutations
+  createOrder(userId: ID!, items: [OrderItemInput!]!): Order!
+  payOrder(orderId: ID!): Boolean!
+  
+  # Invoice mutations
+  createInvoice(orderId: ID!, userId: ID!, amount: Float!, taxRate: Float!): Invoice!
+  issueInvoice(invoiceId: ID!): Boolean!
+  
+  # Supplier mutations
+  createSupplier(name: String!, phone: String!, email: String!, address: String!): Supplier!
+  rechargeSupplier(supplierId: ID!, amount: Float!, method: String!, remark: String): Boolean!
+}
+
+input OrderItemInput {
+  productId: ID!
+  quantity: Int!
+  unitPrice: Float!
+}
