@@ -156,6 +156,35 @@ CREATE TABLE IF NOT EXISTS consumption_bills (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 库存预警阈值表
+CREATE TABLE IF NOT EXISTS inventory_thresholds (
+    id BIGSERIAL PRIMARY KEY,
+    product_id BIGINT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+    min_stock INTEGER NOT NULL DEFAULT 10,
+    max_stock INTEGER NOT NULL DEFAULT 1000,
+    safety_stock INTEGER NOT NULL DEFAULT 5,
+    reorder_point INTEGER NOT NULL DEFAULT 20,
+    enabled BOOLEAN NOT NULL DEFAULT true,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 库存预警记录表
+CREATE TABLE IF NOT EXISTS inventory_alerts (
+    id BIGSERIAL PRIMARY KEY,
+    product_id BIGINT NOT NULL REFERENCES products(id),
+    product_name VARCHAR(255) NOT NULL,
+    product_sku VARCHAR(100) NOT NULL,
+    alert_type VARCHAR(50) NOT NULL,
+    alert_level VARCHAR(20) NOT NULL,
+    current_stock INTEGER NOT NULL,
+    threshold_value INTEGER NOT NULL,
+    message TEXT NOT NULL,
+    is_read BOOLEAN NOT NULL DEFAULT false,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- 创建索引
 CREATE INDEX idx_projects_code ON projects(code);
 CREATE INDEX idx_projects_status ON projects(status);
@@ -170,6 +199,10 @@ CREATE INDEX idx_purchase_orders_supplier_id ON purchase_orders(supplier_id);
 CREATE INDEX idx_purchase_orders_status ON purchase_orders(status);
 CREATE INDEX idx_purchase_order_items_purchase_id ON purchase_order_items(purchase_id);
 CREATE INDEX idx_purchase_order_items_product_id ON purchase_order_items(product_id);
+CREATE INDEX idx_inventory_thresholds_product_id ON inventory_thresholds(product_id);
+CREATE INDEX idx_inventory_alerts_product_id ON inventory_alerts(product_id);
+CREATE INDEX idx_inventory_alerts_is_read ON inventory_alerts(is_read);
+CREATE INDEX idx_inventory_alerts_alert_level ON inventory_alerts(alert_level);
 
 -- 插入示例数据
 INSERT INTO users (username, email, phone, balance) VALUES 

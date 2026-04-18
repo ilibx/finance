@@ -16,6 +16,7 @@ import (
 	rechargeRepo "finance/internal/domain/recharge/repository"
 	supplierRepo "finance/internal/domain/supplier/repository"
 	projectRepo "finance/internal/domain/project/repository"
+	inventoryAlertRepo "finance/internal/domain/inventory/repository"
 	userService "finance/internal/domain/user/service"
 	productService "finance/internal/domain/product/service"
 	orderService "finance/internal/domain/order/service"
@@ -23,6 +24,7 @@ import (
 	rechargeService "finance/internal/domain/recharge/service"
 	projectService "finance/internal/domain/project/service"
 	supplierService "finance/internal/domain/supplier/service"
+	inventoryService "finance/internal/domain/inventory/service"
 
 	_ "github.com/lib/pq"
 )
@@ -53,6 +55,8 @@ iRepo := invoiceRepo.NewInvoiceRepository(db)
 rRepo := rechargeRepo.NewRechargeRepository(db)
 sRepo := supplierRepo.NewSupplierRepository(db)
 projRepo := projectRepo.NewProjectRepository(db)
+alertRepo := inventoryAlertRepo.NewInventoryAlertRepository(db)
+thresholdRepo := inventoryAlertRepo.NewInventoryThresholdRepository(db)
 
 userSvc := userService.NewUserService(uRepo)
 productSvc := productService.NewProductService(pRepo)
@@ -61,6 +65,7 @@ invoiceSvc := invoiceService.NewInvoiceService(iRepo)
 rechargeSvc := rechargeService.NewRechargeService(rRepo, uRepo, sRepo)
 projSvc := projectService.NewProjectService(projRepo)
 supplierSvc := supplierService.NewSupplierService(sRepo)
+inventorySvc := inventoryService.NewInventoryAlertService(alertRepo, thresholdRepo, pRepo)
 
 // Initialize auth middleware
 authMiddleware := middleware.NewAuthMiddleware("erp_system_secret_key_2024_change_in_production")
@@ -73,6 +78,7 @@ rechargeHandler := handler.NewRechargeHandler(rechargeSvc)
 projectHandler := handler.NewProjectHandler(projSvc)
 supplierHandler := handler.NewSupplierHandler(supplierSvc)
 excelImportHandler := handler.NewExcelImportHandler()
+inventoryHandler := handler.NewInventoryHandler(inventorySvc)
 
 http.HandleFunc("/api/users/create", userHandler.CreateUser)
 http.HandleFunc("/api/users/get", userHandler.GetUser)
@@ -103,6 +109,15 @@ http.HandleFunc("/api/excel/import/supplier-recharges", excelImportHandler.Impor
 http.HandleFunc("/api/excel/import/supplier-invoices", excelImportHandler.ImportSupplierInvoices)
 http.HandleFunc("/api/excel/export/consumption-bills", excelImportHandler.ExportConsumptionBills)
 
+// Inventory alert endpoints
+http.HandleFunc("/api/inventory/threshold/set", inventoryHandler.SetThreshold)
+http.HandleFunc("/api/inventory/threshold/get", inventoryHandler.GetThreshold)
+http.HandleFunc("/api/inventory/threshold/list", inventoryHandler.ListThresholds)
+http.HandleFunc("/api/inventory/alerts/list", inventoryHandler.ListAlerts)
+http.HandleFunc("/api/inventory/alerts/mark-read", inventoryHandler.MarkAlertAsRead)
+http.HandleFunc("/api/inventory/alerts/unread-count", inventoryHandler.GetUnreadCount)
+http.HandleFunc("/api/inventory/check-all", inventoryHandler.CheckAllProducts)
+
 addr := ":" + cfg.Server.Port
 log.Printf("ERP 系统启动在 %s", addr)
 log.Println("API 端点:")
@@ -129,6 +144,14 @@ log.Println("  - DELETE /api/suppliers/delete?id=1 - 删除供应商")
 log.Println("Excel 导入导出:")
 log.Println("  - POST /api/excel/import/* - 导入 Excel")
 log.Println("  - GET  /api/excel/export/* - 导出 Excel")
+log.Println("库存预警:")
+log.Println("  - POST /api/inventory/threshold/set - 设置库存阈值")
+log.Println("  - GET  /api/inventory/threshold/get?product_id=1 - 获取库存阈值")
+log.Println("  - GET  /api/inventory/threshold/list - 库存阈值列表")
+log.Println("  - GET  /api/inventory/alerts/list - 库存预警列表")
+log.Println("  - POST /api/inventory/alerts/mark-read?alert_id=1 - 标记预警为已读")
+log.Println("  - GET  /api/inventory/alerts/unread-count - 未读预警数量")
+log.Println("  - POST /api/inventory/check-all - 检查所有产品库存")
 
 if err := http.ListenAndServe(addr, nil); err != nil {
 log.Fatal(err)
